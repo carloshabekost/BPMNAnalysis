@@ -34,8 +34,9 @@ dataframe_cols = dataframe_cols
 
 dataframe_index = outerElements + ['subProcess_' + x for x in outerElements]
 
-paths = ['processos\\diagram.bpmn']
-paths = [os.path.join(cwd, pathway) for pathway in paths]
+paths = os.listdir(cwd)
+paths = [os.path.join(cwd, x) for x in paths if x.endswith('.bpmn')]
+print(paths)
 
 
 def count_elements(df, element, subprocess=False):
@@ -120,17 +121,19 @@ def count_elements(df, element, subprocess=False):
     return result_df
 
 
-for path in paths:
-    dataframe = pandas.DataFrame(0, index=dataframe_index, columns=dataframe_cols)
-    with open(path, 'r') as file:
-        content = "".join(file.readlines())
-        soup = BeautifulSoup(content, 'xml')
-        processes = soup.find_all('process')
-        for process in processes:
-            dataframe = count_elements(dataframe, process)
-    path_to_csv = path.split('\\')[-1].split('.')[0] + '.csv'
-    print(dataframe)
-    print(path_to_csv)
-    dataframe.to_csv(path_to_csv, sep=';')
+def start_counts():
+    for path in paths:
+        dataframe = pandas.DataFrame(0, index=dataframe_index, columns=dataframe_cols)
+        with open(path, 'r') as file:
+            content = "".join(file.readlines())
+            soup = BeautifulSoup(content, 'xml')
+            processes = soup.find_all('process')
+            for process in processes:
+                dataframe = count_elements(dataframe, process)
+        path_to_csv = path.split('\\')[-1].split('.')[0] + '.csv'
+        print(dataframe)
+        print(path_to_csv)
+        dataframe.to_csv(path_to_csv, sep=';')
 
 
+start_counts()
