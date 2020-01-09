@@ -36,7 +36,6 @@ dataframe_index = outerElements + ['subProcess_' + x for x in outerElements]
 
 paths = os.listdir(cwd)
 paths = [os.path.join(cwd, x) for x in paths if x.endswith('.bpmn')]
-print(paths)
 
 
 def count_elements(df, element, subprocess=False):
@@ -121,8 +120,8 @@ def count_elements(df, element, subprocess=False):
     return result_df
 
 
-def start_counts():
-    for path in paths:
+def start_counts(pathways):
+    for path in pathways:
         dataframe = pandas.DataFrame(0, index=dataframe_index, columns=dataframe_cols)
         with open(path, 'r') as file:
             content = "".join(file.readlines())
@@ -136,4 +135,4 @@ def start_counts():
         dataframe.to_csv(path_to_csv, sep=';')
 
 
-start_counts()
+# start_counts(paths)
