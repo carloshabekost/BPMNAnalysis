@@ -129,10 +129,10 @@ def start_counts(pathways):
             processes = soup.find_all('process')
             for process in processes:
                 dataframe = count_elements(dataframe, process)
-        path_to_csv = path.split('\\')[-1].split('.')[0] + '.csv'
-        print(dataframe)
+        path_to_csv = path.split('\\')[-1].split('.bpmn')[0] + '.csv'
+        # print(dataframe)
         print(path_to_csv)
         dataframe.to_csv(path_to_csv, sep=';')
 
 
-# start_counts(paths)
+start_counts(paths)
