@@ -131,6 +131,11 @@ def start_counts(pathways):
                 dataframe = count_elements(dataframe, process)
         path_to_csv = path.split('\\')[-1].split('.bpmn')[0] + '.csv'
         # print(dataframe)
+	# TODO subtrair os elementos de subprocesso dos externos
+	# totalizar elementos de N processos
+	# interface user-friendly ('captura de arquivos de outros diretórios')
+	# comentar código
+	# contabilizar (rodar) para todos os processos
         print(path_to_csv)
         dataframe.to_csv(path_to_csv, sep=';')
 
