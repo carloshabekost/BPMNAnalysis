@@ -55,12 +55,6 @@ def count_elements(df, element, subprocess=False):
         index = k
         if subprocess:
             index = 'subProcess_' + k
-        # print(k, v)
-        if k == 'collaboration':
-            for collaboration in v:
-                for innerElement in innerElements:
-                    found = collaboration.find(innerElement, recursive=False)
-                    inner_df.at[innerElement, 'regular'] += len(found)
         if k == 'startEvent':
             total_inners = 0
             for startEvent in v:
@@ -153,6 +147,7 @@ def count_elements(df, element, subprocess=False):
             inner_df.at[index, 'regular'] += len(v)
         if k == 'laneSet':
             for laneSet in v:
+                inner_df.at[k, 'regular'] += 1
                 found = laneSet.find_all('lane', recursive=False)
                 inner_df.at['lane', 'regular'] += len(found)
     # Final results of this execution are joined with previous ones sent as parameters, grouping results of subprocesses
@@ -181,22 +176,30 @@ def start_counts():
     pathways = pathways.split(';')
     print(pathways)
     final_df = pandas.DataFrame(0, index=dataframe_index, columns=dataframe_cols)
-    for path in pathways:  # Execution for each file listed
-        print(path)
+    for pathway in pathways:  # Executes for each file given
+        print(pathway)
         dataframe = pandas.DataFrame(0, index=dataframe_index, columns=dataframe_cols)  # receives results for each path
-        with open(path, 'r', encoding='utf8') as file:
+        with open(pathway, 'r', encoding='utf8') as file:
             content = "".join(file.readlines())
             soup = BeautifulSoup(content, 'xml')  # 'xml' setting needed to interpret .bpmn files
-            processes = soup.find_all('process')  # Each file should have one, but some modelers add empty processes
+            collaborations = soup.find_all('collaboration')
+            processes = soup.find_all('process')  # File should have 1, however some modelers add empty processes
             for process in processes:
                 dataframe = count_elements(dataframe, process)
-            # dataframe.to_csv(os.path.join(output_location, path.split('/)[-1] + '.csv')) kept here for manual checks
+            for collaboration in collaborations:  # Participants and messageFlows are recorded outside of processes
+                for innerElement in innerElements:
+                    found = collaboration.find_all(innerElement)
+                    dataframe.at[innerElement, 'regular'] += len(found)
+            dataframe.to_csv(os.path.join(output_location, pathway.split('/')[-1] + '.csv'))  # For manual checks
         final_df = final_df + dataframe  # Final dataframe before removing empty rows and columns
     final_df = final_df.loc[(final_df.sum(axis=1) != 0), (final_df.sum(axis=0) != 0)]  # Cleans up uneeded lack of info
-    # TODO BPMN Guide Element compliance //done? Can not verify 'message' and 'documentation' elements
-    # TODO contabilizar (rodar) para todos os processos
-    # TODO eliminar colunas vazias ao final do processo
     print(final_df)
+    gui_exit_layout = [[psg.Text("Files have been processed, and output will be at the specified location ")],
+                       [psg.Text("under the name 'count_bpmn_elements.csv'.")],
+                       [psg.Text("Click 'OK' to finish execution. ")],
+                       [psg.OK("OK")]]
+    window = psg.Window('BPMNCount - Files processed', layout=gui_exit_layout, disable_close=True)
+    event, values = window.read()
     final_df.to_csv(os.path.join(output_location, 'count_bpmn_elements.csv'))  # Final result of execution
 
 
