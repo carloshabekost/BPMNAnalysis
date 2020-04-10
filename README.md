@@ -1,7 +1,7 @@
 # BPM-Pesquisa
 Work developed with the BPM-INF-UFRGS research group.
 
-1. BPMNCount - BPMN Element counting in .bpmn files, distinguishing their variations and subprocess presence.
+1. [BPMNCount](https://github.com/Berger-DM/BPM-Pesquisa/tree/master/BPMNCount) - BPMN Element counting in .bpmn files, distinguishing their variations and subprocess presence.
 
     This module counts elements in a set of .bpmn files in a single, one-level folder (meaning it does not consider files in child folders).
 
