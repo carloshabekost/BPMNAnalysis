@@ -17,4 +17,4 @@ Work developed with the BPM-INF-UFRGS research group.
 
     The module allows as an input parameter an empty list of files, but must have an output location specified. This is by design.
 
-    WARNING: This module overwrites any file with the same name as the output.
+    WARNING: This module overwrites any file with the same name as the output (unless it would be the exact same; in that case, it leaves the previous file as is and does not write a new one).
