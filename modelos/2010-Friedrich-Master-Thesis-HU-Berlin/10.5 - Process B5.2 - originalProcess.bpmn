@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0823k5a" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:collaboration id="Collaboration_07d9e34">
+    <bpmn:participant id="Participant_0xgbmuu" name="MPON" processRef="Process_1" />
+    <bpmn:participant id="Participant_0y62um0" name="MPOO" processRef="Process_0baykq6" />
+    <bpmn:messageFlow id="MessageFlow_0z03co4" sourceRef="EndEvent_1yaz3sp" targetRef="Task_0zyccno" />
+    <bpmn:messageFlow id="MessageFlow_0hrvayj" sourceRef="Task_0mwshyc" targetRef="Task_0zdpcue" />
+    <bpmn:messageFlow id="MessageFlow_0fdef9j" sourceRef="Task_1f5o4y9" targetRef="StartEvent_1y2mdb6" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:sequenceFlow id="SequenceFlow_0asy8p0" sourceRef="Task_0zdpcue" targetRef="EndEvent_1yaz3sp" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ec1yp4" sourceRef="Task_1f5o4y9" targetRef="Task_0zdpcue" />
+    <bpmn:sequenceFlow id="SequenceFlow_0wz25py" sourceRef="StartEvent_0ab7l65" targetRef="Task_1f5o4y9" />
+    <bpmn:receiveTask id="Task_0zdpcue" name="Order">
+      <bpmn:incoming>SequenceFlow_0ec1yp4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0asy8p0</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:endEvent id="EndEvent_1yaz3sp">
+      <bpmn:incoming>SequenceFlow_0asy8p0</bpmn:incoming>
+      <bpmn:messageEventDefinition />
+    </bpmn:endEvent>
+    <bpmn:sendTask id="Task_1f5o4y9" name="Request of a device takeover bid">
+      <bpmn:incoming>SequenceFlow_0wz25py</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ec1yp4</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:startEvent id="StartEvent_0ab7l65">
+      <bpmn:outgoing>SequenceFlow_0wz25py</bpmn:outgoing>
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmn:process id="Process_0baykq6">
+    <bpmn:sequenceFlow id="SequenceFlow_01xvl8t" sourceRef="StartEvent_1y2mdb6" targetRef="Task_0mwshyc" />
+    <bpmn:sequenceFlow id="SequenceFlow_0l5me55" sourceRef="Task_0mwshyc" targetRef="Task_0zyccno" />
+    <bpmn:endEvent id="EndEvent_0pvfsnl">
+      <bpmn:incoming>SequenceFlow_0u62kts</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0u62kts" sourceRef="Task_0zyccno" targetRef="EndEvent_0pvfsnl" />
+    <bpmn:sendTask id="Task_0mwshyc" name="Tender for the equipment takeover">
+      <bpmn:incoming>SequenceFlow_01xvl8t</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0l5me55</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:receiveTask id="Task_0zyccno" name="Confirmation of order and transmition of master data">
+      <bpmn:incoming>SequenceFlow_0l5me55</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0u62kts</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:startEvent id="StartEvent_1y2mdb6">
+      <bpmn:outgoing>SequenceFlow_01xvl8t</bpmn:outgoing>
+      <bpmn:messageEventDefinition />
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_07d9e34">
+      <bpmndi:BPMNShape id="Participant_0xgbmuu_di" bpmnElement="Participant_0xgbmuu">
+        <dc:Bounds x="120" y="88" width="753" height="163" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0y62um0_di" bpmnElement="Participant_0y62um0">
+        <dc:Bounds x="120" y="283" width="754" height="168" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_0ab7l65_di" bpmnElement="StartEvent_0ab7l65">
+        <dc:Bounds x="168" y="149" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0wz25py_di" bpmnElement="SequenceFlow_0wz25py">
+        <di:waypoint x="204" y="167" />
+        <di:waypoint x="240" y="167" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ec1yp4_di" bpmnElement="SequenceFlow_0ec1yp4">
+        <di:waypoint x="340" y="167" />
+        <di:waypoint x="527" y="167" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0asy8p0_di" bpmnElement="SequenceFlow_0asy8p0">
+        <di:waypoint x="627" y="167" />
+        <di:waypoint x="663" y="167" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0smwbm6_di" bpmnElement="EndEvent_1yaz3sp">
+        <dc:Bounds x="663" y="149" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_01xvl8t_di" bpmnElement="SequenceFlow_01xvl8t">
+        <di:waypoint x="308" y="372" />
+        <di:waypoint x="363" y="372" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0l5me55_di" bpmnElement="SequenceFlow_0l5me55">
+        <di:waypoint x="463" y="372" />
+        <di:waypoint x="631" y="372" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0pvfsnl_di" bpmnElement="EndEvent_0pvfsnl">
+        <dc:Bounds x="781" y="354" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0u62kts_di" bpmnElement="SequenceFlow_0u62kts">
+        <di:waypoint x="731" y="372" />
+        <di:waypoint x="781" y="372" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="SendTask_0l7hkxk_di" bpmnElement="Task_1f5o4y9">
+        <dc:Bounds x="240" y="127" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="MessageFlow_0z03co4_di" bpmnElement="MessageFlow_0z03co4">
+        <di:waypoint x="681" y="185" />
+        <di:waypoint x="681" y="332" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MessageFlow_0hrvayj_di" bpmnElement="MessageFlow_0hrvayj">
+        <di:waypoint x="413" y="332" />
+        <di:waypoint x="413" y="270" />
+        <di:waypoint x="563" y="270" />
+        <di:waypoint x="563" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ReceiveTask_102yz2q_di" bpmnElement="Task_0zdpcue">
+        <dc:Bounds x="527" y="127" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SendTask_1bwqyxs_di" bpmnElement="Task_0mwshyc">
+        <dc:Bounds x="363" y="332" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1gacdvy_di" bpmnElement="StartEvent_1y2mdb6">
+        <dc:Bounds x="272" y="354" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ReceiveTask_1idgsvw_di" bpmnElement="Task_0zyccno">
+        <dc:Bounds x="631" y="332" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="MessageFlow_0fdef9j_di" bpmnElement="MessageFlow_0fdef9j">
+        <di:waypoint x="290" y="207" />
+        <di:waypoint x="290" y="354" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

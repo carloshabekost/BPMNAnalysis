@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="_2018103003882" targetNamespace="http://www.bizagi.com/definitions/_2018103003882">
+  <collaboration id="Collaboration_0seozuw">
+    <participant id="Participant_1bowmo1" processRef="Process_098d1ua" />
+  </collaboration>
+  <process id="Process_098d1ua">
+    <laneSet id="LaneSet_0813sub">
+      <lane id="Lane_0wd9yo5" name="Customer Service Representative">
+        <flowNodeRef>StartEvent_0w3088t</flowNodeRef>
+        <flowNodeRef>Task_1n8um9i</flowNodeRef>
+        <flowNodeRef>ExclusiveGateway_0o8ati2</flowNodeRef>
+        <flowNodeRef>EndEvent_111j23t</flowNodeRef>
+        <flowNodeRef>Task_0tl3c5b</flowNodeRef>
+        <flowNodeRef>IntermediateCatchEvent_04yix41</flowNodeRef>
+        <flowNodeRef>IntermediateCatchEvent_0fsm6gj</flowNodeRef>
+        <flowNodeRef>IntermediateCatchEvent_1wdlao3</flowNodeRef>
+      </lane>
+      <lane id="Lane_1p599w8" name="Administration">
+        <flowNodeRef>Task_15gq4vn</flowNodeRef>
+        <flowNodeRef>ExclusiveGateway_0gpqncu</flowNodeRef>
+        <flowNodeRef>Task_199uwxi</flowNodeRef>
+        <flowNodeRef>EndEvent_1em6rq9</flowNodeRef>
+        <flowNodeRef>EndEvent_1r2fitd</flowNodeRef>
+        <flowNodeRef>Task_078r9it</flowNodeRef>
+        <flowNodeRef>BoundaryEvent_0w7g727</flowNodeRef>
+        <flowNodeRef>Task_0zrw53j</flowNodeRef>
+        <flowNodeRef>IntermediateThrowEvent_1bptl39</flowNodeRef>
+      </lane>
+    </laneSet>
+    <startEvent id="StartEvent_0w3088t">
+      <outgoing>SequenceFlow_1lbj00d</outgoing>
+      <signalEventDefinition />
+    </startEvent>
+    <task id="Task_1n8um9i" name="Send out mortgage offer">
+      <incoming>SequenceFlow_1lbj00d</incoming>
+      <outgoing>SequenceFlow_1rljej9</outgoing>
+    </task>
+    <sequenceFlow id="SequenceFlow_1lbj00d" sourceRef="StartEvent_0w3088t" targetRef="Task_1n8um9i" />
+    <sequenceFlow id="SequenceFlow_1rljej9" sourceRef="Task_1n8um9i" targetRef="ExclusiveGateway_0o8ati2" />
+    <eventBasedGateway id="ExclusiveGateway_0o8ati2">
+      <incoming>SequenceFlow_1rljej9</incoming>
+      <outgoing>SequenceFlow_0j5nncu</outgoing>
+      <outgoing>SequenceFlow_1r0to5l</outgoing>
+      <outgoing>SequenceFlow_0mwp4dy</outgoing>
+    </eventBasedGateway>
+    <sequenceFlow id="SequenceFlow_0j5nncu" sourceRef="ExclusiveGateway_0o8ati2" targetRef="IntermediateCatchEvent_04yix41" />
+    <intermediateCatchEvent id="IntermediateCatchEvent_04yix41" name="Not interested">
+      <incoming>SequenceFlow_0j5nncu</incoming>
+      <outgoing>SequenceFlow_1gfvo6h</outgoing>
+      <messageEventDefinition />
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="IntermediateCatchEvent_0fsm6gj" name="2 weeks">
+      <incoming>SequenceFlow_1r0to5l</incoming>
+      <outgoing>SequenceFlow_1exok3b</outgoing>
+      <timerEventDefinition />
+    </intermediateCatchEvent>
+    <sequenceFlow id="SequenceFlow_1r0to5l" sourceRef="ExclusiveGateway_0o8ati2" targetRef="IntermediateCatchEvent_0fsm6gj" />
+    <sequenceFlow id="SequenceFlow_0mwp4dy" sourceRef="ExclusiveGateway_0o8ati2" targetRef="IntermediateCatchEvent_1wdlao3" />
+    <intermediateCatchEvent id="IntermediateCatchEvent_1wdlao3" name="Completed offer docs received">
+      <incoming>SequenceFlow_0mwp4dy</incoming>
+      <outgoing>SequenceFlow_1aaah94</outgoing>
+      <messageEventDefinition />
+    </intermediateCatchEvent>
+    <sequenceFlow id="SequenceFlow_1gfvo6h" sourceRef="IntermediateCatchEvent_04yix41" targetRef="Task_0tl3c5b" />
+    <subProcess id="Task_0tl3c5b" name="Update case file and archive">
+      <incoming>SequenceFlow_1gfvo6h</incoming>
+      <incoming>SequenceFlow_1exok3b</incoming>
+      <outgoing>SequenceFlow_0t2mofq</outgoing>
+    </subProcess>
+    <sequenceFlow id="SequenceFlow_0t2mofq" sourceRef="Task_0tl3c5b" targetRef="EndEvent_111j23t" />
+    <endEvent id="EndEvent_111j23t">
+      <incoming>SequenceFlow_0t2mofq</incoming>
+      <terminateEventDefinition />
+    </endEvent>
+    <sequenceFlow id="SequenceFlow_1exok3b" sourceRef="IntermediateCatchEvent_0fsm6gj" targetRef="Task_0tl3c5b" />
+    <sequenceFlow id="SequenceFlow_1aaah94" sourceRef="IntermediateCatchEvent_1wdlao3" targetRef="Task_15gq4vn" />
+    <task id="Task_15gq4vn" name="Assess mortgage details">
+      <incoming>SequenceFlow_1aaah94</incoming>
+      <outgoing>SequenceFlow_1t656vd</outgoing>
+    </task>
+    <exclusiveGateway id="ExclusiveGateway_0gpqncu" name="all docs available?">
+      <incoming>SequenceFlow_1t656vd</incoming>
+      <incoming>SequenceFlow_1lvihd1</incoming>
+      <outgoing>SequenceFlow_1x360n6</outgoing>
+      <outgoing>SequenceFlow_1ynxqyx</outgoing>
+    </exclusiveGateway>
+    <task id="Task_199uwxi" name="Request mortgage application">
+      <incoming>SequenceFlow_1ynxqyx</incoming>
+      <outgoing>SequenceFlow_0dzm7mu</outgoing>
+    </task>
+    <endEvent id="EndEvent_1em6rq9">
+      <incoming>SequenceFlow_1svegcr</incoming>
+    </endEvent>
+    <sequenceFlow id="SequenceFlow_1t656vd" sourceRef="Task_15gq4vn" targetRef="ExclusiveGateway_0gpqncu" />
+    <sequenceFlow id="SequenceFlow_1lvihd1" sourceRef="IntermediateThrowEvent_1bptl39" targetRef="ExclusiveGateway_0gpqncu" />
+    <sequenceFlow id="SequenceFlow_1x360n6" name="yes" sourceRef="ExclusiveGateway_0gpqncu" targetRef="Task_078r9it" />
+    <sequenceFlow id="SequenceFlow_1ynxqyx" name="no" sourceRef="ExclusiveGateway_0gpqncu" targetRef="Task_199uwxi" />
+    <sequenceFlow id="SequenceFlow_0sf3603" sourceRef="Task_078r9it" targetRef="EndEvent_1r2fitd" />
+    <sequenceFlow id="SequenceFlow_0dzm7mu" sourceRef="Task_199uwxi" targetRef="IntermediateThrowEvent_1bptl39" />
+    <sequenceFlow id="SequenceFlow_030vf19" sourceRef="BoundaryEvent_0w7g727" targetRef="Task_0zrw53j" />
+    <sequenceFlow id="SequenceFlow_1svegcr" sourceRef="Task_0zrw53j" targetRef="EndEvent_1em6rq9" />
+    <endEvent id="EndEvent_1r2fitd" name="Mortgage in system">
+      <incoming>SequenceFlow_0sf3603</incoming>
+      <signalEventDefinition />
+    </endEvent>
+    <subProcess id="Task_078r9it" name="Finalize mortgage application">
+      <incoming>SequenceFlow_1x360n6</incoming>
+      <outgoing>SequenceFlow_0sf3603</outgoing>
+    </subProcess>
+    <boundaryEvent id="BoundaryEvent_0w7g727" attachedToRef="Task_199uwxi">
+      <outgoing>SequenceFlow_030vf19</outgoing>
+      <timerEventDefinition />
+    </boundaryEvent>
+    <subProcess id="Task_0zrw53j" name="Update case details and archive">
+      <incoming>SequenceFlow_030vf19</incoming>
+      <outgoing>SequenceFlow_1svegcr</outgoing>
+    </subProcess>
+    <intermediateCatchEvent id="IntermediateThrowEvent_1bptl39" name="Documents received">
+      <incoming>SequenceFlow_0dzm7mu</incoming>
+      <outgoing>SequenceFlow_1lvihd1</outgoing>
+      <messageEventDefinition />
+    </intermediateCatchEvent>
+  </process>
+  <BPMNDiagram xmlns="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Diagram_9f13c6f1-f844-493f-a8f1-7ff5608e8855">
+    <BPMNPlane id="DiagramElement_0a64598d-b116-4a5a-8f95-ebe15cd05b35" bpmnElement="Collaboration_0seozuw">
+      <extension xmlns="http://www.omg.org/spec/DD/20100524/DI" />
+      <BPMNShape id="Participant_1bowmo1_di" bpmnElement="Participant_1bowmo1">
+        <dc:Bounds x="41" y="73" width="788" height="727" />
+      </BPMNShape>
+      <BPMNShape id="Lane_0wd9yo5_di" bpmnElement="Lane_0wd9yo5">
+        <dc:Bounds x="71" y="73" width="758" height="299" />
+      </BPMNShape>
+      <BPMNShape id="Lane_1p599w8_di" bpmnElement="Lane_1p599w8">
+        <dc:Bounds x="71" y="372" width="758" height="428" />
+      </BPMNShape>
+      <BPMNShape id="StartEvent_1unoimi_di" bpmnElement="StartEvent_0w3088t">
+        <dc:Bounds x="118" y="205" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="Task_1n8um9i_di" bpmnElement="Task_1n8um9i">
+        <dc:Bounds x="204" y="183" width="100" height="80" />
+      </BPMNShape>
+      <BPMNEdge id="SequenceFlow_1lbj00d_di" bpmnElement="SequenceFlow_1lbj00d">
+        <di:waypoint x="154" y="223" />
+        <di:waypoint x="204" y="223" />
+      </BPMNEdge>
+      <BPMNEdge id="SequenceFlow_1rljej9_di" bpmnElement="SequenceFlow_1rljej9">
+        <di:waypoint x="304" y="223" />
+        <di:waypoint x="354" y="223" />
+      </BPMNEdge>
+      <BPMNShape id="EventBasedGateway_116zy6l_di" bpmnElement="ExclusiveGateway_0o8ati2">
+        <dc:Bounds x="354" y="198" width="50" height="50" />
+      </BPMNShape>
+      <BPMNShape id="IntermediateCatchEvent_04yix41_di" bpmnElement="IntermediateCatchEvent_04yix41">
+        <dc:Bounds x="454" y="123" width="36" height="36" />
+        <BPMNLabel>
+          <dc:Bounds x="438" y="166" width="69" height="14" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNEdge id="SequenceFlow_0j5nncu_di" bpmnElement="SequenceFlow_0j5nncu">
+        <di:waypoint x="379" y="198" />
+        <di:waypoint x="379" y="141" />
+        <di:waypoint x="454" y="141" />
+      </BPMNEdge>
+      <BPMNShape id="IntermediateCatchEvent_0fsm6gj_di" bpmnElement="IntermediateCatchEvent_0fsm6gj">
+        <dc:Bounds x="454" y="205" width="36" height="36" />
+        <BPMNLabel>
+          <dc:Bounds x="452" y="248" width="41" height="14" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNEdge id="SequenceFlow_1r0to5l_di" bpmnElement="SequenceFlow_1r0to5l">
+        <di:waypoint x="404" y="223" />
+        <di:waypoint x="454" y="223" />
+      </BPMNEdge>
+      <BPMNShape id="IntermediateCatchEvent_1wdlao3_di" bpmnElement="IntermediateCatchEvent_1wdlao3">
+        <dc:Bounds x="454" y="293" width="36" height="36" />
+        <BPMNLabel>
+          <dc:Bounds x="432" y="336" width="80" height="27" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNEdge id="SequenceFlow_0mwp4dy_di" bpmnElement="SequenceFlow_0mwp4dy">
+        <di:waypoint x="379" y="248" />
+        <di:waypoint x="379" y="311" />
+        <di:waypoint x="454" y="311" />
+      </BPMNEdge>
+      <BPMNEdge id="SequenceFlow_1gfvo6h_di" bpmnElement="SequenceFlow_1gfvo6h">
+        <di:waypoint x="490" y="141" />
+        <di:waypoint x="540" y="141" />
+      </BPMNEdge>
+      <BPMNShape id="SubProcess_0ud0zai_di" bpmnElement="Task_0tl3c5b">
+        <dc:Bounds x="540" y="101" width="100" height="80" />
+      </BPMNShape>
+      <BPMNEdge id="SequenceFlow_0t2mofq_di" bpmnElement="SequenceFlow_0t2mofq">
+        <di:waypoint x="640" y="141" />
+        <di:waypoint x="690" y="141" />
+      </BPMNEdge>
+      <BPMNShape id="EndEvent_0a9mkoi_di" bpmnElement="EndEvent_111j23t">
+        <dc:Bounds x="690" y="123" width="36" height="36" />
+      </BPMNShape>
+      <BPMNEdge id="SequenceFlow_1exok3b_di" bpmnElement="SequenceFlow_1exok3b">
+        <di:waypoint x="490" y="223" />
+        <di:waypoint x="590" y="223" />
+        <di:waypoint x="590" y="181" />
+      </BPMNEdge>
+      <BPMNShape id="Task_15gq4vn_di" bpmnElement="Task_15gq4vn">
+        <dc:Bounds x="204" y="505" width="100" height="80" />
+      </BPMNShape>
+      <BPMNEdge id="SequenceFlow_1aaah94_di" bpmnElement="SequenceFlow_1aaah94">
+        <di:waypoint x="490" y="311" />
+        <di:waypoint x="525" y="311" />
+        <di:waypoint x="525" y="391" />
+        <di:waypoint x="254" y="391" />
+        <di:waypoint x="254" y="505" />
+      </BPMNEdge>
+      <BPMNShape id="ExclusiveGateway_0gpqncu_di" bpmnElement="ExclusiveGateway_0gpqncu" isMarkerVisible="true">
+        <dc:Bounds x="354" y="520" width="50" height="50" />
+        <BPMNLabel>
+          <dc:Bounds x="402" y="528" width="90" height="14" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNEdge id="SequenceFlow_1t656vd_di" bpmnElement="SequenceFlow_1t656vd">
+        <di:waypoint x="304" y="545" />
+        <di:waypoint x="354" y="545" />
+      </BPMNEdge>
+      <BPMNEdge id="SequenceFlow_1x360n6_di" bpmnElement="SequenceFlow_1x360n6">
+        <di:waypoint x="379" y="520" />
+        <di:waypoint x="379" y="454" />
+        <di:waypoint x="460" y="454" />
+        <BPMNLabel>
+          <dc:Bounds x="378" y="434" width="17" height="14" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNShape id="Task_199uwxi_di" bpmnElement="Task_199uwxi">
+        <dc:Bounds x="460" y="586" width="100" height="80" />
+      </BPMNShape>
+      <BPMNEdge id="SequenceFlow_1ynxqyx_di" bpmnElement="SequenceFlow_1ynxqyx">
+        <di:waypoint x="379" y="570" />
+        <di:waypoint x="379" y="626" />
+        <di:waypoint x="460" y="626" />
+        <BPMNLabel>
+          <dc:Bounds x="383" y="630" width="13" height="14" />
+        </BPMNLabel>
+      </BPMNEdge>
+      <BPMNEdge id="SequenceFlow_0sf3603_di" bpmnElement="SequenceFlow_0sf3603">
+        <di:waypoint x="560" y="454" />
+        <di:waypoint x="629" y="454" />
+      </BPMNEdge>
+      <BPMNShape id="EndEvent_0z7bevn_di" bpmnElement="EndEvent_1r2fitd">
+        <dc:Bounds x="629" y="436" width="36" height="36" />
+        <BPMNLabel>
+          <dc:Bounds x="618" y="479" width="59" height="27" />
+        </BPMNLabel>
+      </BPMNShape>
+      <BPMNEdge id="SequenceFlow_030vf19_di" bpmnElement="SequenceFlow_030vf19">
+        <di:waypoint x="533" y="684" />
+        <di:waypoint x="533" y="734" />
+        <di:waypoint x="597" y="734" />
+      </BPMNEdge>
+      <BPMNShape id="EndEvent_1em6rq9_di" bpmnElement="EndEvent_1em6rq9">
+        <dc:Bounds x="743" y="716" width="36" height="36" />
+      </BPMNShape>
+      <BPMNEdge id="SequenceFlow_1svegcr_di" bpmnElement="SequenceFlow_1svegcr">
+        <di:waypoint x="697" y="734" />
+        <di:waypoint x="743" y="734" />
+      </BPMNEdge>
+      <BPMNEdge id="SequenceFlow_0dzm7mu_di" bpmnElement="SequenceFlow_0dzm7mu">
+        <di:waypoint x="490" y="666" />
+        <di:waypoint x="490" y="734" />
+        <di:waypoint x="416" y="734" />
+      </BPMNEdge>
+      <BPMNEdge id="SequenceFlow_1lvihd1_di" bpmnElement="SequenceFlow_1lvihd1">
+        <di:waypoint x="380" y="734" />
+        <di:waypoint x="366" y="734" />
+        <di:waypoint x="366" y="557" />
+      </BPMNEdge>
+      <BPMNShape id="SubProcess_0ds1u2z_di" bpmnElement="Task_078r9it">
+        <dc:Bounds x="460" y="414" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="BoundaryEvent_1avxbma_di" bpmnElement="BoundaryEvent_0w7g727">
+        <dc:Bounds x="515" y="648" width="36" height="36" />
+      </BPMNShape>
+      <BPMNShape id="SubProcess_083cvae_di" bpmnElement="Task_0zrw53j">
+        <dc:Bounds x="597" y="694" width="100" height="80" />
+      </BPMNShape>
+      <BPMNShape id="IntermediateCatchEvent_1qw5551_di" bpmnElement="IntermediateThrowEvent_1bptl39">
+        <dc:Bounds x="380" y="716" width="36" height="36" />
+        <BPMNLabel>
+          <dc:Bounds x="370" y="759" width="57" height="27" />
+        </BPMNLabel>
+      </BPMNShape>
+    </BPMNPlane>
+    <BPMNLabelStyle id="Style_b8e92a07-41b0-47a1-a9eb-6de53c69d31d">
+      <dc:Font name="Segoe UI" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_5feb3e8e-ce65-4db9-85f5-fbf6924255b4">
+      <dc:Font name="Segoe UI" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_f147a83c-f8ca-4a2b-924a-031055852cc9">
+      <dc:Font name="Segoe UI" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_15b5454f-69da-421e-9ce3-70e8cfc80a58">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_65fc8de5-57cf-4d67-bf0e-836f36ff882f">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_91eddb4b-ef76-4a37-b4eb-0559ac87ae54">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_0cebfc93-bda3-4e0e-90ab-f9d033b51863">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_8de027d8-d331-4117-b2e7-b1d730bfc6b2">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_abe294de-815b-40fe-bcf0-bbe42198f3cc">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_cb13a0c1-2997-4c1a-8e04-c44c51770db4">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_76b3e058-9ff3-4770-b47a-2527f15f7a1f">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_b47c2efa-3bde-4870-a02e-3c9a1ec3d963">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_3cac5e21-9bec-401c-932a-72e7f22681a9">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_270acdeb-c75c-4c72-bb62-fece69d24cd9">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_caebcad4-2de2-40f9-b742-35042833656c">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_40376b7a-f587-4628-8149-01d4dc061b76">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_362864d1-00c1-4738-8469-4aa822a728e4">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+    <BPMNLabelStyle id="Style_4c012149-3332-454e-960e-d071f814ea6e">
+      <dc:Font name="Segoe UI" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </BPMNLabelStyle>
+  </BPMNDiagram>
+</definitions>
